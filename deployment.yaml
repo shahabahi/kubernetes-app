@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: first-app
+  name: first-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: first-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: first-app
+    spec:
+      containers:
+      - image: 12482/kubernetes-first-app:2
+        name: kubernetes-first-app
+        resources: {hub.docker.com}
+status: {}
