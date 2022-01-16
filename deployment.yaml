@@ -2,26 +2,37 @@ apiVersion: apps/v1 # witch application version you want to deploy your applicat
 kind: Deployment   # king of kubernetes object you want to create like Service, Job (document ->https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/)(-> kubectl create <<deployment>> first-app)
 metadata: # (https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#listmeta-v1-meta)
   creationTimestamp: null
-  labels:
-    app: first-app
   name: first-app   # kubectl create deployment <<first-app>>
+  labels:
+    group: example
 spec: # we will define how overal deployment should be configure
   replicas: 2 # number of instances/pods from 0 to ...
   selector: # manage and monitor pods
     matchLabels:
       app: first-app # key and value of lable in the pod in template metadata lables field
-      #tier: backend
+      tier: backend
+#    matchExpressions:
+#      - {key: app, operator: In, values: [first-app, backend]}
+      # operator could be NotIn and some others to say that you should select who that is in or not in values
   strategy: {}
   template: # we will define the pods that should be created as part of this deployment (kubectl create deployment first-app <<--image=name of image>>)
     metadata:
       creationTimestamp: null
       labels:
         app: first-app # key app and value first-app is up to us and we can change key and value
-        # tier: backend
+        tier: backend
     spec: # how this pod should be configure
       containers: # I each container we can have multiple pods
         - image: 12482/kubernetes-first-app:2 # with - we can add multiple containers
+          imagePullPolicy: Always  #always pull latest version of image it means image: 12482/kubernetes-first-app:latest
           name: kubernetes-first-app
           resources: {hub.docker.com}
+          livenessProbe:
+            httpGet:
+              path: /get/name
+              port: 8080
+              #httpHeaders:
+            periodSeconds: 10
+            initialDelaySeconds: 5
       #- image:
 status: {}

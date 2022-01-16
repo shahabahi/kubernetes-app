@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend # name of service
+  labels:
+    group: example
 spec:
   selector: # identify witch other resources should be controled or connected to this resource(witch pods should be part of this service).a service object exposes pods to the cluster or to the outside world
     app: first-app

@@ -53,6 +53,9 @@ kubectl rollout history deployment/first-app --revision=3
 kubectl create deployment first-app --image=12482/kubernetes-first-app --dry-run=client -o=yaml > deployment.yaml
 kubectl apply -f=deployment.yaml,service.yaml
 kubectl delete -f=deployment.yaml,service.yaml
+#delete with label
+kubectl delete deployment,services -l group=example
+
 
 
 docker tag kubernetes-first-app 12482/kubernetes-first-app
