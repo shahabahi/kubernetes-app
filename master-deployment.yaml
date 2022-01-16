@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend # name of service
+spec:
+  selector: # identify witch other resources should be controled or connected to this resource(witch pods should be part of this service).a service object exposes pods to the cluster or to the outside world
+    app: first-app
+  #    tier: backend
+  ports:
+    - protocol: 'TCP'
+      port: 80 # the outside port that you want to expose
+      targetPort: 8080 # the port that your application is listening on
+    # - protocol: 'TCP'
+    #   port: 443
+    #   targetPort: 443
+  type: LoadBalancer # ClusterIP means internaly expose ip and only accessable inside of the cluster ,NodePort to basicaly expose it on the ip and port of the worker node on whitch it runs, LoadBalancer for outside of the world access
+---
+apiVersion: apps/v1 # witch application version you want to deploy your application into kubernetes
+kind: Deployment   # king of kubernetes object you want to create like Service, Job (document ->https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/)(-> kubectl create <<deployment>> first-app)
+metadata: # (https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#listmeta-v1-meta)
+  creationTimestamp: null
+  labels:
+    app: first-app
+  name: first-app   # kubectl create deployment <<first-app>>
+spec: # we will define how overal deployment should be configure
+  replicas: 2 # number of instances/pods from 0 to ...
+  selector: # manage and monitor pods
+    matchLabels:
+      app: first-app # key and value of lable in the pod in template metadata lables field
+      #tier: backend
+  strategy: {}
+  template: # we will define the pods that should be created as part of this deployment (kubectl create deployment first-app <<--image=name of image>>)
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: first-app # key app and value first-app is up to us and we can change key and value
+        # tier: backend
+    spec: # how this pod should be configure
+      containers: # I each container we can have multiple pods
+        - image: 12482/kubernetes-first-app:2 # with - we can add multiple containers
+          name: kubernetes-first-app
+          resources: {hub.docker.com}
+      #- image:
+status: {}
