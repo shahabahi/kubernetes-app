@@ -1,4 +1,3 @@
-# kubernetes-app
 snap remove kubectl
 snap install kubectl --classic
 kubectl version --client
@@ -52,7 +51,8 @@ kubectl rollout history deployment/first-app --revision=3
 ----------------------------------
 
 kubectl create deployment first-app --image=12482/kubernetes-first-app --dry-run=client -o=yaml > deployment.yaml
-kubectl apply -f deployment.yaml
+kubectl apply -f=deployment.yaml,service.yaml
+kubectl delete -f=deployment.yaml,service.yaml
 
 
 docker tag kubernetes-first-app 12482/kubernetes-first-app
@@ -87,3 +87,9 @@ kubectl scale deployment/first-app --replicas=3
 
 
 ------------------------Resource Defenition File
+
+
+
+
+
+
