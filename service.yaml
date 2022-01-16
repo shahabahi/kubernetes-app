@@ -1,15 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: backend # name of service
 spec:
-  selector: 
+  selector: # identify witch other resources should be controled or connected to this resource(witch pods should be part of this service).a service object exposes pods to the cluster or to the outside world
     app: first-app
+  #    tier: backend
   ports:
     - protocol: 'TCP'
-      port: 80
-      targetPort: 8080
+      port: 80 # the outside port that you want to expose
+      targetPort: 8080 # the port that your application is listening on
     # - protocol: 'TCP'
     #   port: 443
     #   targetPort: 443
-  type: LoadBalancer
+  type: LoadBalancer # ClusterIP means internaly expose ip and only accessable inside of the cluster ,NodePort to basicaly expose it on the ip and port of the worker node on whitch it runs, LoadBalancer for outside of the world access
